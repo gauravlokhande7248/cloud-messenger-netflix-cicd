@@ -1,158 +1,234 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>CloudFlix | Streaming Demo</title>
- <style>
- * { box-sizing: border-box; }
- body {
- margin: 0;
- background: #101010;
- color: white;
- font-family: Arial, sans-serif;
- }
- header {
- display: flex;
- justify-content: space-between;
- align-items: center;
- padding: 22px 6%;
- background: #080808;
- }
- .logo {
- color: #e50914;
- font-size: 30px;
- font-weight: 900;
- letter-spacing: 2px;
- }
- .sign-in {
- background: #e50914;
- padding: 10px 18px;
- border-radius: 5px;
- color: white;
- text-decoration: none;
- }
- .hero {
- min-height: 420px;
- padding: 90px 7%;
- background:
- linear-gradient(90deg, #101010 10%, #101010d9 55%, #10101055),
- radial-gradient(circle at 75% 30%, #7e1019, #241019 45%, #101010 80%);
- }
- .hero h1 {
- max-width: 650px;
- font-size: clamp(38px, 6vw, 64px);
- margin: 0 0 18px;
- }
- .hero p {
- max-width: 540px;
- font-size: 19px;
- line-height: 1.6;
- color: #ddd;
- }
- .button {
- display: inline-block;
- margin-top: 18px;
- padding: 14px 22px;
- background: #e50914;
- border-radius: 4px;
- color: white;
- text-decoration: none;
- font-weight: bold;
- }
- main { padding: 28px 6%; }
- .cards {justify-content: space-between;
- align-items: center;
- padding: 22px 6%;
- background: #080808;
- }
- .logo {
- color: #e50914;
- font-size: 30px;
- font-weight: 900;
- letter-spacing: 2px;
- }
- .sign-in {
- background: #e50914;
- padding: 10px 18px;
- border-radius: 5px;
- color: white;
- text-decoration: none;
- }
- .hero {
- min-height: 420px;
- padding: 90px 7%;
- background:
- linear-gradient(90deg, #101010 10%, #101010d9 55%, #10101055),
- radial-gradient(circle at 75% 30%, #7e1019, #241019 45%, #101010 80%);
- }
- .hero h1 {
- max-width: 650px;
- font-size: clamp(38px, 6vw, 64px);
- margin: 0 0 18px;
- }
- .hero p {
- max-width: 540px;
- font-size: 19px;
- line-height: 1.6;
- color: #ddd;
- }
- .button {
- display: inline-block;
- margin-top: 18px;
- padding: 14px 22px;
- background: #e50914;
- border-radius: 4px;
- color: white;
- text-decoration: none;
- font-weight: bold;
- }
- main { padding: 28px 6%; }
- .cards {display: grid;
- grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
- gap: 16px;
- }
- .card {
- min-height: 150px;
- padding: 22px;
- border-radius: 8px;
- background: linear-gradient(135deg, #4b1020, #202044);
- display: flex;
- align-items: end;
- font-weight: bold;
- font-size: 19px;
- }
- footer {
- padding: 28px;
- text-align: center;
- color: #aaa;
- }
- </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudFlix | Streaming Demo</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #101010;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 6%;
+            background: #080808;
+        }
+
+        .logo {
+            color: #e50914;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .sign-in,
+        .button {
+            background: #e50914;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .sign-in {
+            padding: 10px 18px;
+        }
+
+        .sign-in:hover,
+        .button:hover {
+            background: #b20710;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            min-height: 460px;
+            padding: 90px 7%;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(90deg, #101010 10%, #101010d9 55%, #10101055),
+                radial-gradient(circle at 75% 30%, #7e1019, #241019 45%, #101010 80%);
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 64px);
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            max-width: 540px;
+            font-size: 19px;
+            color: #ddd;
+            margin-bottom: 18px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 14px 22px;
+        }
+
+        main {
+            padding: 35px 6%;
+        }
+
+        main h2 {
+            font-size: 27px;
+            margin-bottom: 22px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(150px, 1fr)
+            );
+            gap: 18px;
+        }
+
+        .card {
+            min-height: 190px;
+            padding: 22px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4b1020, #202044);
+            display: flex;
+            align-items: flex-end;
+            font-weight: bold;
+            font-size: 19px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-7px) scale(1.02);
+            box-shadow: 0 10px 25px #0008;
+        }
+
+        .card:nth-child(2) {
+            background: linear-gradient(135deg, #075985, #172554);
+        }
+
+        .card:nth-child(3) {
+            background: linear-gradient(135deg, #7f1d1d, #451a03);
+        }
+
+        .card:nth-child(4) {
+            background: linear-gradient(135deg, #4c1d95, #111827);
+        }
+
+        footer {
+            padding: 28px 15px;
+            text-align: center;
+            color: #aaa;
+            background: #080808;
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .hero {
+                padding: 65px 6%;
+                min-height: 400px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            main {
+                padding: 28px 5%;
+            }
+
+            .card {
+                min-height: 150px;
+            }
+        }
+    </style>
 </head>
+
 <body>
- <header>
- <div class="logo">CLOUDFLIX</div>
- <a class="sign-in" href="#shows">Explore</a>
- </header>
- <section class="hero">
- <h1>Stories worth staying up for.</h1>
- <p>
- Explore a world of movies, series, and unforgettable adventures.
- Built and deployed through a Jenkins CI/CD pipeline on AWS.
- </p>
- <a class="button" href="#shows">Explore the collection</a>
- </section>
- <main id="shows">
- <h2>Trending on CloudFlix</h2>
- <div class="cards">
- <div class="card">The Last Mission</div>
- <div class="card">Beyond Earth</div>
- <div class="card">Code Red</div>
- <div class="card">The Final Chapter</div>
- </div>
- </main>
- <footer>
- CloudFlix Demo · Built with Git, GitHub, Jenkins and Docker
- </footer>
+
+    <header>
+        <div class="logo">CLOUDFLIX</div>
+        <a href="#trending" class="sign-in">Explore</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Stories worth staying up for.</h1>
+
+            <p>
+                Explore a world of movies, series, and unforgettable
+                adventures. Built and deployed through a Jenkins
+                CI/CD pipeline on AWS.
+            </p>
+
+            <a href="#trending" class="button">
+                Explore the Collection
+            </a>
+        </div>
+    </section>
+
+    <main id="trending">
+        <h2>Trending on CloudFlix</h2>
+
+        <div class="cards">
+            <div class="card">The Last Mission</div>
+            <div class="card">Beyond Earth</div>
+            <div class="card">Code Red</div>
+            <div class="card">The Final Chapter</div>
+        </div>
+    </main>
+
+    <footer>
+        CloudFlix Demo &copy; 2026
+        <br>
+        Built with Git, GitHub, Jenkins, Docker and AWS EC2
+    </footer>
+
 </body>
 </html>
