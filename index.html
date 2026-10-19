@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CloudFlix | Streaming Demo</title>
+    <meta name="description" content="Explore the CloudFlix streaming demo, built with HTML, CSS, Docker, Jenkins and AWS.">
 
     <style>
         * {
@@ -13,9 +14,13 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background: #101010;
-            color: white;
+            color: #fff;
             font-family: Arial, Helvetica, sans-serif;
             line-height: 1.6;
         }
@@ -37,12 +42,13 @@
 
         .sign-in,
         .button {
+            display: inline-block;
             background: #e50914;
-            color: white;
+            color: #fff;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            transition: background 0.3s, transform 0.3s;
+            transition: background .3s, transform .3s;
         }
 
         .sign-in {
@@ -55,6 +61,12 @@
             transform: translateY(-2px);
         }
 
+        .sign-in:focus-visible,
+        .button:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 4px;
+        }
+
         .hero {
             min-height: 460px;
             padding: 90px 7%;
@@ -63,7 +75,6 @@
             background:
                 linear-gradient(90deg, #101010 10%, #101010d9 55%, #10101055),
                 radial-gradient(circle at 75% 30%, #7e1019, #241019 45%, #101010 80%);
-            background-size: cover;
         }
 
         .hero-content {
@@ -85,7 +96,6 @@
         }
 
         .button {
-            display: inline-block;
             margin-top: 12px;
             padding: 14px 22px;
         }
@@ -101,10 +111,7 @@
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(150px, 1fr)
-            );
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 18px;
         }
 
@@ -117,8 +124,8 @@
             align-items: flex-end;
             font-weight: bold;
             font-size: 19px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden;
+            transition: transform .3s, box-shadow .3s;
+            overflow-wrap: anywhere;
         }
 
         .card:hover {
@@ -157,8 +164,12 @@
             }
         }
 
-        html {
-            scroll-behavior: smooth;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
         }
 
         @media (max-width: 600px) {
@@ -191,7 +202,6 @@
 </head>
 
 <body>
-
     <header>
         <div class="logo">CLOUDFLIX</div>
         <a href="#trending" class="sign-in">Explore</a>
@@ -225,10 +235,8 @@
     </main>
 
     <footer>
-        CloudFlix Demo &copy; 2026
-        <br>
-        Built with Git, GitHub, Jenkins, Docker and AWS EC2
+        <p>CloudFlix Demo &copy; 2026</p>
+        <p>Built with Git, GitHub, Jenkins, Docker and AWS EC2</p>
     </footer>
-
 </body>
 </html>
