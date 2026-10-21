@@ -1,242 +1,713 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover movies, TV shows, and entertainment on Netflix.">
+  <title>Netflix - Watch TV Shows Online</title>
 
-    <title>CloudFlix | Streaming Demo</title>
-    <meta name="description" content="Explore the CloudFlix streaming demo, built with HTML, CSS, Docker, Jenkins and AWS.">
+  <style>
+    :root {
+      --red: #e50914;
+      --black: #000;
+      --dark: #141414;
+      --white: #fff;
+      --gray: #b3b3b3;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        body {
-            background: #101010;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-            line-height: 1.6;
-        }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+    }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 22px 6%;
-            background: #080808;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        .logo {
-            color: #e50914;
-            font-size: 30px;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
+    button, input {
+      font: inherit;
+    }
 
-        .sign-in,
-        .button {
-            display: inline-block;
-            background: #e50914;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background .3s, transform .3s;
-        }
+    .hero {
+      min-height: 700px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 8px solid #232323;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,.72), rgba(0,0,0,.45) 45%, #000 100%),
+        url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=2000&q=85")
+        center/cover no-repeat;
+    }
 
-        .sign-in {
-            padding: 10px 18px;
-        }
+    .navbar {
+      max-width: 1200px;
+      margin: auto;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
 
-        .sign-in:hover,
-        .button:hover {
-            background: #b20710;
-            transform: translateY(-2px);
-        }
+    .logo {
+      color: var(--red);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
 
-        .sign-in:focus-visible,
-        .button:focus-visible {
-            outline: 2px solid #fff;
-            outline-offset: 4px;
-        }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .hero {
-            min-height: 460px;
-            padding: 90px 7%;
-            display: flex;
-            align-items: center;
-            background:
-                linear-gradient(90deg, #101010 10%, #101010d9 55%, #10101055),
-                radial-gradient(circle at 75% 30%, #7e1019, #241019 45%, #101010 80%);
-        }
+    .language {
+      background: rgba(0,0,0,.7);
+      border: 1px solid #888;
+      border-radius: 4px;
+      color: white;
+      padding: 8px 12px;
+    }
 
-        .hero-content {
-            max-width: 700px;
-            animation: fadeIn 1s ease-out;
-        }
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--red);
+      border: 0;
+      border-radius: 4px;
+      color: white;
+      padding: 10px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
 
-        .hero h1 {
-            font-size: clamp(38px, 6vw, 64px);
-            line-height: 1.1;
-            margin-bottom: 18px;
-        }
+    .btn:hover {
+      background: #c11119;
+      transform: translateY(-1px);
+    }
 
-        .hero p {
-            max-width: 540px;
-            font-size: 19px;
-            color: #ddd;
-            margin-bottom: 18px;
-        }
+    .hero-content {
+      max-width: 900px;
+      margin: 125px auto 100px;
+      padding: 0 24px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
 
-        .button {
-            margin-top: 12px;
-            padding: 14px 22px;
-        }
+    .hero-content h1 {
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      line-height: 1.12;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
 
-        main {
-            padding: 35px 6%;
-        }
+    .hero-content h2 {
+      font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+      font-weight: 500;
+      margin-bottom: 22px;
+    }
 
-        main h2 {
-            font-size: 27px;
-            margin-bottom: 22px;
-        }
+    .hero-content p {
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+    }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 18px;
-        }
+    .email-form {
+      max-width: 650px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+    }
 
-        .card {
-            min-height: 190px;
-            padding: 22px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #4b1020, #202044);
-            display: flex;
-            align-items: flex-end;
-            font-weight: bold;
-            font-size: 19px;
-            transition: transform .3s, box-shadow .3s;
-            overflow-wrap: anywhere;
-        }
+    .email-form input {
+      flex: 1;
+      min-width: 0;
+      background: rgba(20,20,20,.8);
+      color: white;
+      border: 1px solid #888;
+      border-radius: 4px;
+      padding: 16px;
+      outline: none;
+    }
 
-        .card:hover {
-            transform: translateY(-7px) scale(1.02);
-            box-shadow: 0 10px 25px #0008;
-        }
+    .email-form input:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
 
-        .card:nth-child(2) {
-            background: linear-gradient(135deg, #075985, #172554);
-        }
+    .email-form .btn {
+      font-size: 1.15rem;
+      padding: 14px 22px;
+      white-space: nowrap;
+    }
 
-        .card:nth-child(3) {
-            background: linear-gradient(135deg, #7f1d1d, #451a03);
-        }
+    .feature {
+      border-bottom: 8px solid #232323;
+      padding: 70px 24px;
+    }
 
-        .card:nth-child(4) {
-            background: linear-gradient(135deg, #4c1d95, #111827);
-        }
+    .feature-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 45px;
+    }
 
-        footer {
-            padding: 28px 15px;
-            text-align: center;
-            color: #aaa;
-            background: #080808;
-            font-size: 14px;
-        }
+    .feature.reverse .feature-text {
+      order: 2;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .feature.reverse .feature-art {
+      order: 1;
+    }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation: none !important;
-                transition: none !important;
-                scroll-behavior: auto !important;
-            }
-        }
+    .feature-text {
+      flex: 1;
+    }
 
-        @media (max-width: 600px) {
-            header {
-                padding: 18px 5%;
-            }
+    .feature-text h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
 
-            .logo {
-                font-size: 24px;
-            }
+    .feature-text p {
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+    }
 
-            .hero {
-                padding: 65px 6%;
-                min-height: 400px;
-            }
+    .feature-art {
+      flex: 1;
+      min-width: 0;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-            .hero p {
-                font-size: 16px;
-            }
+    .screen {
+      width: 100%;
+      max-width: 450px;
+      aspect-ratio: 16 / 10;
+      border: 4px solid #444;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #301015, #111 65%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px #0009;
+    }
 
-            main {
-                padding: 28px 5%;
-            }
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 25%, #e5091455, transparent 45%);
+    }
 
-            .card {
-                min-height: 150px;
-            }
-        }
-    </style>
+    .screen-icon {
+      font-size: clamp(3rem, 8vw, 6rem);
+      position: relative;
+      filter: drop-shadow(0 5px 12px #000);
+    }
+
+    .download-card {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(82%, 300px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border: 2px solid #555;
+      border-radius: 12px;
+      background: #080808;
+    }
+
+    .poster {
+      font-size: 2rem;
+    }
+
+    .download-copy {
+      flex: 1;
+      font-size: .9rem;
+      line-height: 1.35;
+    }
+
+    .download-copy span {
+      display: block;
+      color: #0071eb;
+    }
+
+    .download-status {
+      color: #0071eb;
+      font-size: 1.4rem;
+    }
+
+    .faq {
+      max-width: 850px;
+      margin: auto;
+      padding: 65px 24px 75px;
+      border-bottom: 8px solid #232323;
+    }
+
+    .faq h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .faq-item {
+      margin-bottom: 8px;
+      background: #2d2d2d;
+    }
+
+    .faq-question {
+      width: 100%;
+      border: 0;
+      padding: 20px 24px;
+      background: transparent;
+      color: white;
+      font-size: 1.2rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-question:hover {
+      background: #414141;
+    }
+
+    .faq-question .plus {
+      font-size: 1.8rem;
+      font-weight: 300;
+      transition: transform .2s;
+    }
+
+    .faq-question[aria-expanded="true"] .plus {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 20px 24px;
+      border-top: 1px solid #000;
+      font-size: 1.1rem;
+    }
+
+    .faq-answer.open {
+      display: block;
+    }
+
+    .faq-cta {
+      text-align: center;
+      margin-top: 35px;
+    }
+
+    .faq-cta p {
+      margin-bottom: 18px;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: auto;
+      padding: 50px 28px;
+      color: var(--gray);
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin: 28px 0;
+    }
+
+    .footer-links a {
+      font-size: .9rem;
+      text-decoration: underline;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    footer .language {
+      margin-bottom: 22px;
+    }
+
+    .footer-note {
+      font-size: .85rem;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        min-height: 610px;
+      }
+
+      .navbar {
+        padding: 22px 18px;
+      }
+
+      .nav-right {
+        gap: 8px;
+      }
+
+      .language {
+        padding: 7px;
+        max-width: 105px;
+      }
+
+      .navbar .btn {
+        padding: 8px 12px;
+      }
+
+      .hero-content {
+        margin: 100px auto 75px;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .email-form {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .email-form input {
+        width: 100%;
+        min-height: 54px;
+      }
+
+      .email-form .btn {
+        font-size: 1rem;
+      }
+
+      .feature {
+        padding: 55px 22px;
+      }
+
+      .feature-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+      }
+
+      .feature.reverse .feature-text,
+      .feature.reverse .feature-art {
+        order: initial;
+      }
+
+      .feature-art {
+        width: 100%;
+        min-height: 220px;
+      }
+
+      .screen {
+        max-width: 430px;
+      }
+
+      .footer-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .faq-question {
+        font-size: 1rem;
+        padding: 18px;
+      }
+
+      .faq-answer {
+        font-size: 1rem;
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .logo {
+        font-size: 1.6rem;
+      }
+
+      .navbar {
+        padding: 20px 12px;
+      }
+
+      .language {
+        max-width: 85px;
+        font-size: .8rem;
+      }
+
+      .navbar .btn {
+        font-size: .85rem;
+      }
+
+      .footer-links {
+        gap: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <div class="logo">CLOUDFLIX</div>
-        <a href="#trending" class="sign-in">Explore</a>
-    </header>
+  <header class="hero" id="home">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="#home" class="logo" aria-label="Netflix home">NETFLIX</a>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Stories worth staying up for.</h1>
+      <div class="nav-right">
+        <select class="language" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+        <a class="btn" href="#get-started">Sign In</a>
+      </div>
+    </nav>
 
-            <p>
-                Explore a world of movies, series, and unforgettable
-                adventures. Built and deployed through a Jenkins
-                CI/CD pipeline on AWS.
-            </p>
+    <div class="hero-content">
+      <h1>Unlimited movies, TV shows and more</h1>
+      <h2>Watch anywhere. Cancel anytime.</h2>
+      <p>Ready to watch? Enter your email to get started.</p>
 
-            <a href="#trending" class="button">
-                Explore the Collection
-            </a>
+      <form class="email-form" id="get-started">
+        <input
+          type="email"
+          id="email"
+          placeholder="Email address"
+          aria-label="Email address"
+          autocomplete="email"
+          required
+        >
+        <button class="btn" type="submit">Get Started &nbsp; ›</button>
+      </form>
+      <p id="form-message" role="status" aria-live="polite"></p>
+    </div>
+  </header>
+
+  <main>
+    <section class="feature">
+      <div class="feature-inner">
+        <div class="feature-text">
+          <h2>Enjoy on your TV</h2>
+          <p>Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.</p>
         </div>
+        <div class="feature-art">
+          <div class="screen" role="img" aria-label="Television entertainment illustration">
+            <span class="screen-icon" aria-hidden="true">▶</span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <main id="trending">
-        <h2>Trending on CloudFlix</h2>
-
-        <div class="cards">
-            <div class="card">The Last Mission</div>
-            <div class="card">Beyond Earth</div>
-            <div class="card">Code Red</div>
-            <div class="card">The Final Chapter</div>
+    <section class="feature reverse">
+      <div class="feature-inner">
+        <div class="feature-text">
+          <h2>Download your shows to watch offline</h2>
+          <p>Save your favourites easily and always have something to watch.</p>
         </div>
-    </main>
+        <div class="feature-art">
+          <div class="screen" role="img" aria-label="Offline downloads illustration">
+            <span class="screen-icon" aria-hidden="true">📱</span>
+            <div class="download-card">
+              <div class="poster" aria-hidden="true">🎬</div>
+              <div class="download-copy">
+                <strong>Stranger Things</strong>
+                <span>Downloading...</span>
+              </div>
+              <div class="download-status" aria-hidden="true">↓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <footer>
-        <p>CloudFlix Demo &copy; 2026</p>
-        <p>Built with Git, GitHub, Jenkins, Docker and AWS EC2</p>
-    </footer>
+    <section class="feature">
+      <div class="feature-inner">
+        <div class="feature-text">
+          <h2>Watch everywhere</h2>
+          <p>Stream unlimited movies and TV shows on your phone, tablet, laptop and TV.</p>
+        </div>
+        <div class="feature-art">
+          <div class="screen" role="img" aria-label="Watch across your devices illustration">
+            <span class="screen-icon" aria-hidden="true">💻</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature reverse">
+      <div class="feature-inner">
+        <div class="feature-text">
+          <h2>Create profiles for kids</h2>
+          <p>Send children on adventures with their favourite characters in a space made just for them.</p>
+        </div>
+        <div class="feature-art">
+          <div class="screen" role="img" aria-label="Kids entertainment illustration">
+            <span class="screen-icon" aria-hidden="true">🦁</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="answer-1">
+          <span>What is Netflix?</span><span class="plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="answer-1">
+          Netflix is a streaming service offering a wide variety of TV shows, movies, documentaries and more.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="answer-2">
+          <span>How much does Netflix cost?</span><span class="plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="answer-2">
+          Plans and prices vary by country and subscription option. Visit the official Netflix website for current pricing.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="answer-3">
+          <span>Where can I watch?</span><span class="plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="answer-3">
+          Watch on internet-connected TVs, phones, tablets, streaming players and supported computers.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="answer-4">
+          <span>Can I cancel anytime?</span><span class="plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="answer-4">
+          You can manage or cancel your subscription through your Netflix account, subject to its terms.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="answer-5">
+          <span>Is Netflix good for kids?</span><span class="plus" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="answer-5">
+          Netflix offers kids' profiles and parental controls to help families manage what children can watch.
+        </div>
+      </div>
+
+      <div class="faq-cta">
+        <p>Ready to watch? Enter your email to get started.</p>
+        <form class="email-form" id="footer-form">
+          <input
+            type="email"
+            placeholder="Email address"
+            aria-label="Email address for getting started"
+            autocomplete="email"
+            required
+          >
+          <button class="btn" type="submit">Get Started &nbsp; ›</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Questions? Visit the <a href="https://help.netflix.com/" target="_blank" rel="noopener noreferrer">Netflix Help Center</a>.</p>
+
+    <div class="footer-links">
+      <a href="https://help.netflix.com/">FAQ</a>
+      <a href="https://help.netflix.com/">Help Center</a>
+      <a href="https://www.netflix.com/youraccount">Account</a>
+      <a href="https://media.netflix.com/">Media Center</a>
+      <a href="https://help.netflix.com/legal/termsofuse">Terms of Use</a>
+      <a href="https://help.netflix.com/legal/privacy">Privacy</a>
+      <a href="https://help.netflix.com/">Cookie Preferences</a>
+      <a href="https://help.netflix.com/">Contact Us</a>
+    </div>
+
+    <select class="language" aria-label="Footer language">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+
+    <p>Netflix India</p>
+    <p class="footer-note">This is a practice landing page for a web development and Docker project. It is not an official Netflix website.</p>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll(".faq-question").forEach((button) => {
+      button.addEventListener("click", () => {
+        const answer = document.getElementById(
+          button.getAttribute("aria-controls")
+        );
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+        button.setAttribute("aria-expanded", String(!isExpanded));
+        answer.classList.toggle("open", !isExpanded);
+      });
+    });
+
+    // Demo email forms; no subscription or account is created.
+    document.querySelectorAll(".email-form").forEach((form) => {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const input = form.querySelector('input[type="email"]');
+
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          return;
+        }
+
+        const message = document.getElementById("form-message");
+        if (message) {
+          message.textContent =
+            "Thanks! This demo form is ready, but it is not connected to Netflix.";
+        } else {
+          alert(
+            "This is a demo landing page. Email submission is not connected to Netflix."
+          );
+        }
+      });
+    });
+  </script>
 </body>
 </html>
